@@ -249,7 +249,11 @@
             <div class="bg-gray-50 p-5 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200 w-full max-w-sm relative z-20">
                 <p class="mb-2"><strong class="text-gray-800">報名人：</strong> <span id="display-name" class="text-lg text-tzuchi-700 font-medium"></span></p>
                 <p class="mb-2"><strong class="text-gray-800">參加人數：</strong> <span id="display-count" class="text-lg text-tzuchi-700 font-medium"></span> 位</p>
-                <p><strong class="text-gray-800">所屬區隊：</strong> <span id="display-group"></span></p>
+                <p class="mb-2"><strong class="text-gray-800">所屬區隊：</strong> <span id="display-group"></span></p>
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <p class="text-center"><strong class="text-gray-800">目前已報名總人數</strong></p>
+                    <p class="text-center mt-1"><span id="display-total-count" class="text-3xl text-tzuchi-700 font-bold"></span> <span class="text-gray-600">位</span></p>
+                </div>
             </div>
             <div class="relative z-20">
                 <button onclick="location.reload()" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-tzuchi-700 bg-tzuchi-100 hover:bg-tzuchi-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors cursor-pointer">
@@ -260,13 +264,18 @@
 
     </div>
 
-    <!-- 頁尾 -->
+    <!-- 頁尾 (保留間距，移除版權文字) -->
     <footer class="max-w-3xl mx-auto mt-8 text-center pb-8 text-sm text-gray-500 relative z-10">
-        &copy; 2026 慈濟六十周年特展籌備團隊
     </footer>
 
     <!-- 動畫與表單互動邏輯 -->
     <script>
+        // ==========================================
+        // 👇 請將下方單引號內的文字，替換成您剛剛部署好的 Apps Script 網址
+        // ==========================================
+        const GAS_API_URL = '請將此處替換為您的_Google_Apps_Script_網址';
+
+
         document.addEventListener('DOMContentLoaded', function() {
             
             // --- 紅豆特效產生器 ---
@@ -325,6 +334,11 @@
                 document.getElementById('display-name').textContent = name;
                 document.getElementById('display-count').textContent = count;
                 document.getElementById('display-group').textContent = `${heqi} / ${huai} / ${xieli}`;
+                
+                // 準備顯示總人數的 UI
+                const totalDisplay = document.getElementById('display-total-count');
+                totalDisplay.textContent = '計算中...';
+                totalDisplay.className = 'text-xl text-tzuchi-500 font-medium animate-pulse';
 
                 // 隱藏表單，顯示成功訊息
                 formContainer.classList.add('hidden');
@@ -332,6 +346,29 @@
                 
                 // 捲動回最上方
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // 延遲 1.5 秒抓取真實數據，確保 Google 表單已將最新資料寫入試算表
+                setTimeout(() => {
+                    if (GAS_API_URL.includes('請將此處替換')) {
+                        // 防呆機制：如果忘記貼上網址，給予提示
+                        totalDisplay.textContent = "未串接 API (本次 +" + count + ")";
+                        totalDisplay.className = 'text-lg text-gray-500 font-medium';
+                    } else {
+                        // 呼叫 API 取得真實人數
+                        fetch(GAS_API_URL)
+                            .then(response => response.json())
+                            .then(data => {
+                                // 成功取得資料，顯示真實總數
+                                totalDisplay.textContent = data.total;
+                                totalDisplay.className = 'text-3xl text-tzuchi-700 font-bold';
+                            })
+                            .catch(error => {
+                                console.error('Error fetching total:', error);
+                                totalDisplay.textContent = '讀取失敗';
+                                totalDisplay.className = 'text-lg text-red-500 font-medium';
+                            });
+                    }
+                }, 1500);
             }
         };
     </script>
