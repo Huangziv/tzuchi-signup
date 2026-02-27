@@ -89,6 +89,10 @@
 </head>
 <body class="antialiased text-gray-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8 relative">
 
+    <!-- 隱藏的 iframe，用來無縫接收 Google 表單送出後的回應 -->
+    <script>var submitted = false;</script>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { window.handleFormSubmitSuccess(); }"></iframe>
+
     <!-- 紅豆特效背景容器 -->
     <div id="bean-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
@@ -137,8 +141,8 @@
 
             <h3 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">填寫報名資料 <span class="text-sm font-normal text-red-500 ml-2">* 皆為必填</span></h3>
 
-            <!-- 報名表單 -->
-            <form id="registration-form" class="space-y-8">
+            <!-- 報名表單 (串接 Google 表單) -->
+            <form id="registration-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfOpV_IJgoYxr8oTbhc7CL7A0E7y015JLzuy9DU4m_0kdLDxw/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;" class="space-y-8">
                 
                 <!-- 1. 所屬和氣 -->
                 <div class="space-y-3 bg-white">
@@ -147,11 +151,11 @@
                     </label>
                     <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100 transition-colors hover:bg-tzuchi-50">
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="heqi" value="和氣3" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
+                            <input type="radio" name="entry.2066300681" value="和氣3" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">和氣3</span>
                         </label>
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="heqi" value="和氣4" class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
+                            <input type="radio" name="entry.2066300681" value="和氣4" class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">和氣4</span>
                         </label>
                     </div>
@@ -164,11 +168,11 @@
                     </label>
                     <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100 transition-colors hover:bg-tzuchi-50">
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="huai" value="互愛1" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
+                            <input type="radio" name="entry.1646258153" value="互愛1" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">互愛1</span>
                         </label>
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="huai" value="互愛2" class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
+                            <input type="radio" name="entry.1646258153" value="互愛2" class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">互愛2</span>
                         </label>
                     </div>
@@ -180,7 +184,7 @@
                         3. 所屬協力 <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
-                        <select id="xieli" name="xieli" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-gray-50 cursor-pointer hover:bg-white">
+                        <select id="xieli" name="entry.983147328" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-gray-50 cursor-pointer hover:bg-white">
                             <option value="" disabled selected>請選擇所屬協力...</option>
                             <option value="協力1">協力1</option>
                             <option value="協力2">協力2</option>
@@ -197,7 +201,7 @@
                         4. 報名姓名 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">請填寫真實姓名</p>
-                    <input type="text" id="name" name="name" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
+                    <input type="text" id="name" name="entry.2781799" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 5. 聯絡電話 -->
@@ -206,7 +210,7 @@
                         5. 聯絡電話 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">方便活動當日或遇雨取消時聯繫</p>
-                    <input type="tel" id="phone" name="phone" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
+                    <input type="tel" id="phone" name="entry.764713427" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 6. 參加總人數 -->
@@ -215,7 +219,7 @@
                         6. 參加總人數 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">含本人及隨行親友 (請填寫數字)</p>
-                    <input type="number" id="people_count" name="people_count" min="1" required placeholder="例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
+                    <input type="number" id="people_count" name="entry.366303649" min="1" required placeholder="例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 提交按鈕 -->
@@ -226,7 +230,7 @@
                 </div>
                 
                 <div class="text-center mt-4 text-xs text-gray-400">
-                    此為展示用表單，資料將不會被實際儲存。
+                    您填寫的資料將安全加密傳送至專案籌備團隊的 Google 表單中。
                 </div>
             </form>
         </div>
@@ -300,40 +304,36 @@
             }
             // 啟動紅豆特效
             createBeans();
+        });
 
-            // --- 表單邏輯 ---
+        // --- 表單成功送出邏輯 (由隱藏 iframe 的 onload 觸發) ---
+        window.handleFormSubmitSuccess = function() {
             const form = document.getElementById('registration-form');
             const formContainer = document.getElementById('form-container');
             const successMessage = document.getElementById('success-message');
 
-            form.addEventListener('submit', function(e) {
-                // 阻止預設的表單送出行為
-                e.preventDefault();
+            // 取得使用者剛才輸入的資料來顯示
+            const formData = new FormData(form);
+            const name = formData.get('entry.2781799');
+            const count = formData.get('entry.366303649');
+            const heqi = formData.get('entry.2066300681');
+            const huai = formData.get('entry.1646258153');
+            const xieli = formData.get('entry.983147328');
 
-                // 取得使用者輸入的資料
-                const formData = new FormData(form);
-                const name = formData.get('name');
-                const count = formData.get('people_count');
-                const heqi = formData.get('heqi');
-                const huai = formData.get('huai');
-                const xieli = formData.get('xieli');
+            if(name) {
+                // 將資料填入成功畫面中
+                document.getElementById('display-name').textContent = name;
+                document.getElementById('display-count').textContent = count;
+                document.getElementById('display-group').textContent = `${heqi} / ${huai} / ${xieli}`;
 
-                if(name && count && heqi && huai && xieli) {
-                    
-                    // 將資料填入成功畫面中
-                    document.getElementById('display-name').textContent = name;
-                    document.getElementById('display-count').textContent = count;
-                    document.getElementById('display-group').textContent = `${heqi} / ${huai} / ${xieli}`;
-
-                    // 隱藏表單，顯示成功訊息
-                    formContainer.classList.add('hidden');
-                    successMessage.classList.remove('hidden');
-                    
-                    // 捲動回最上方
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            });
-        });
+                // 隱藏表單，顯示成功訊息
+                formContainer.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+                
+                // 捲動回最上方
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
     </script>
 </body>
 </html>
