@@ -1,4 +1,4 @@
-<index.html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -43,16 +43,22 @@
 <body class="antialiased text-gray-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
 
     <!-- 主容器 -->
-    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
         
-        <!-- 海報圖片區域 -->
-        <div class="w-full h-64 sm:h-96 overflow-hidden bg-tzuchi-900 relative flex items-center justify-center">
-            <!-- 這裡使用先前上傳的海報檔案 -->
-            <img src="599957726_10224552792325956_558178611731373555_n.jpg" alt="【回家聽故事】慈濟六十周年特展海報" class="w-full h-full object-cover object-top opacity-90">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            <h1 class="absolute bottom-6 left-6 right-6 text-white text-2xl sm:text-3xl font-bold drop-shadow-md">
-                【《回家聽故事》慈濟六十周年特展】<br><span class="text-xl sm:text-2xl font-medium mt-2 block">報名表單 - 三重和氣三、四</span>
+        <!-- 海報圖片區域 (修改為不裁切，完整顯示) -->
+        <div class="w-full bg-[#1a1a1a] flex items-center justify-center border-b-4 border-tzuchi-700">
+            <!-- w-full h-auto 確保圖片會依照原始比例完整顯示，不會被卡掉 -->
+            <img src="599957726_10224552792325956_558178611731373555_n.jpg" alt="【回家聽故事】慈濟六十周年特展海報" class="w-full h-auto object-contain max-h-[70vh]">
+        </div>
+
+        <!-- 標題區域 (移出圖片外，避免擋住海報上的文字) -->
+        <div class="bg-tzuchi-800 p-6 sm:p-8 text-center text-white">
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-wide">
+                【《回家聽故事》慈濟六十周年特展】
             </h1>
+            <p class="text-lg sm:text-xl font-medium mt-3 text-tzuchi-100">
+                報名表單 - 三重和氣三、四
+            </p>
         </div>
 
         <!-- 內容區域 -->
@@ -65,13 +71,13 @@
                     活動資訊
                 </h2>
                 <ul class="space-y-2 text-sm sm:text-base text-gray-700">
-                    <li><strong class="text-gray-900">活動時間：</strong>3月29日（日）06:00～20:00 (含到北車時間)</li>
+                    <li><strong class="text-gray-900">活動時間：</strong>2026年3月29日（日）06:00～20:00 (含到北車時間)</li>
                     <li><strong class="text-gray-900">活動地點：</strong>花蓮精舍、靜思精舍自力耕生園區A棟B1</li>
                     <li><strong class="text-gray-900">參加對象：</strong>和氣三、四慈誠委員、家屬、志工、會眾（預計 120 位）</li>
                 </ul>
                 
                 <div class="mt-4 pt-4 border-t border-tzuchi-100">
-                    <p class="text-sm text-gray-600 leading-relaxed">
+                    <p class="text-sm text-gray-600 leading-relaxed text-justify">
                         一個家，從一念清淨心開始；一段故事，從每一個愛的行動譜寫。從花蓮的一座小木屋到世界的一座座慈悲道場，這條路，走了一甲子。讓我們回家，回到靜思的法源，一起聽聽這一路走來，上人引領弟子們，用愛書寫的真實故事。
                     </p>
                 </div>
@@ -79,17 +85,17 @@
 
             <hr class="my-8 border-gray-200">
 
-            <h3 class="text-xl font-bold text-gray-800 mb-6">填寫報名資料 <span class="text-sm font-normal text-red-500 ml-2">* 皆為必填</span></h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-6 border-b pb-2">填寫報名資料 <span class="text-sm font-normal text-red-500 ml-2">* 皆為必填</span></h3>
 
             <!-- 報名表單 -->
             <form id="registration-form" class="space-y-8">
                 
                 <!-- 1. 所屬和氣 -->
-                <div class="space-y-3">
+                <div class="space-y-3 bg-white">
                     <label class="block text-base font-medium text-gray-900">
                         1. 所屬和氣 <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100">
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="radio" name="heqi" value="和氣3" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">和氣3</span>
@@ -106,7 +112,7 @@
                     <label class="block text-base font-medium text-gray-900">
                         2. 所屬互愛 <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100">
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="radio" name="huai" value="互愛1" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">互愛1</span>
@@ -124,8 +130,8 @@
                         3. 所屬協力 <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
-                        <select id="xieli" name="xieli" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-white cursor-pointer">
-                            <option value="" disabled selected>請選擇所屬協力</option>
+                        <select id="xieli" name="xieli" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-gray-50 cursor-pointer">
+                            <option value="" disabled selected>請選擇所屬協力...</option>
                             <option value="協力1">協力1</option>
                             <option value="協力2">協力2</option>
                             <option value="協力3">協力3</option>
@@ -141,7 +147,7 @@
                         4. 報名姓名 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">請填寫真實姓名</p>
-                    <input type="text" id="name" name="name" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm transition-colors">
+                    <input type="text" id="name" name="name" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
                 </div>
 
                 <!-- 5. 聯絡電話 -->
@@ -150,7 +156,7 @@
                         5. 聯絡電話 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">方便活動當日或遇雨取消時聯繫</p>
-                    <input type="tel" id="phone" name="phone" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm transition-colors">
+                    <input type="tel" id="phone" name="phone" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
                 </div>
 
                 <!-- 6. 參加總人數 -->
@@ -158,8 +164,8 @@
                     <label for="people_count" class="block text-base font-medium text-gray-900">
                         6. 參加總人數 <span class="text-red-500">*</span>
                     </label>
-                    <p class="text-sm text-gray-500 mb-2">含本人及隨行親友</p>
-                    <input type="number" id="people_count" name="people_count" min="1" required placeholder="請填寫數字，例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm transition-colors">
+                    <p class="text-sm text-gray-500 mb-2">含本人及隨行親友 (請填寫數字)</p>
+                    <input type="number" id="people_count" name="people_count" min="1" required placeholder="例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
                 </div>
 
                 <!-- 提交按鈕 -->
@@ -184,12 +190,12 @@
             </div>
             <h2 class="text-3xl font-extrabold text-gray-900 mb-4">報名成功！</h2>
             <p class="text-lg text-gray-600 mb-8">
-                感恩您的發心參與。<br>期待 3 月 29 日與您一同回到靜思法源，聆聽慈濟一甲子的真實故事。
+                感恩您的發心參與。<br>期待與您一同回到靜思法源，聆聽慈濟一甲子的真實故事。
             </p>
-            <div class="bg-gray-50 p-4 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200">
-                <p class="mb-1"><strong class="text-gray-800">報名人：</strong> <span id="display-name"></span></p>
-                <p class="mb-1"><strong class="text-gray-800">參加人數：</strong> <span id="display-count"></span> 位</p>
-                <p><strong class="text-gray-800">所屬：</strong> <span id="display-group"></span></p>
+            <div class="bg-gray-50 p-5 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200 w-full max-w-sm">
+                <p class="mb-2"><strong class="text-gray-800">報名人：</strong> <span id="display-name" class="text-lg text-tzuchi-700 font-medium"></span></p>
+                <p class="mb-2"><strong class="text-gray-800">參加人數：</strong> <span id="display-count" class="text-lg text-tzuchi-700 font-medium"></span> 位</p>
+                <p><strong class="text-gray-800">所屬區隊：</strong> <span id="display-group"></span></p>
             </div>
             <div>
                 <button onclick="location.reload()" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-tzuchi-700 bg-tzuchi-100 hover:bg-tzuchi-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors">
@@ -243,5 +249,4 @@
         });
     </script>
 </body>
-
 </html>
