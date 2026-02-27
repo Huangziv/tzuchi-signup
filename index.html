@@ -33,17 +33,67 @@
         body {
             background-color: #f3f4f6;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='#e5e7eb' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            overflow-x: hidden;
         }
         /* 自訂選取框樣式 */
         .form-radio, .form-select, .form-input {
             transition: all 0.2s;
         }
+        
+        /* === 紅豆顆粒特效 CSS === */
+        .red-bean {
+            position: absolute;
+            width: 14px;
+            height: 20px;
+            /* 紅豆漸層色：深紅到暗酒紅 */
+            background: radial-gradient(ellipse at 30% 30%, #b22222, #5c0a0a);
+            /* 紅豆微橢圓且一側微凹的形狀 */
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 2px 3px 5px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(0,0,0,0.2);
+            pointer-events: none; /* 確保不會擋住滑鼠點擊 */
+            z-index: 0;
+            animation: floatDown linear infinite;
+        }
+        
+        /* 模擬紅豆側邊白色的種臍 (Hilum) */
+        .red-bean::after {
+            content: '';
+            position: absolute;
+            top: 35%;
+            right: 2px;
+            width: 2px;
+            height: 30%;
+            background-color: rgba(245, 245, 220, 0.7); /* 微透的米白色 */
+            border-radius: 50%;
+            transform: rotate(15deg);
+        }
+
+        /* 紅豆飄落動畫 */
+        @keyframes floatDown {
+            0% {
+                transform: translateY(-5vh) rotate(var(--start-rot)) scale(var(--scale)) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: var(--max-opacity);
+            }
+            90% {
+                opacity: var(--max-opacity);
+            }
+            100% {
+                transform: translateY(105vh) rotate(var(--end-rot)) scale(var(--scale)) translateX(var(--drift));
+                opacity: 0;
+            }
+        }
     </style>
 </head>
-<body class="antialiased text-gray-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+<body class="antialiased text-gray-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8 relative">
 
-    <!-- 主容器 -->
-    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+    <!-- 紅豆特效背景容器 -->
+    <div id="bean-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- 主容器 (加上 z-10 與 relative 確保在紅豆上方) -->
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 relative z-10">
         
         <!-- 海報圖片區域 (修改為不裁切，完整顯示) -->
         <div class="w-full bg-[#1a1a1a] flex items-center justify-center border-b-4 border-tzuchi-700">
@@ -65,7 +115,7 @@
         <div class="p-6 sm:p-10" id="form-container">
             
             <!-- 活動資訊區塊 -->
-            <div class="mb-10 bg-tzuchi-50 border-l-4 border-tzuchi-700 p-5 rounded-r-lg">
+            <div class="mb-10 bg-tzuchi-50 border-l-4 border-tzuchi-700 p-5 rounded-r-lg shadow-sm">
                 <h2 class="text-lg font-bold text-tzuchi-900 mb-3 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     活動資訊
@@ -95,7 +145,7 @@
                     <label class="block text-base font-medium text-gray-900">
                         1. 所屬和氣 <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100">
+                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100 transition-colors hover:bg-tzuchi-50">
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="radio" name="heqi" value="和氣3" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">和氣3</span>
@@ -112,7 +162,7 @@
                     <label class="block text-base font-medium text-gray-900">
                         2. 所屬互愛 <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100">
+                    <div class="flex flex-col sm:flex-row sm:space-x-6 space-y-2 sm:space-y-0 mt-2 p-3 bg-gray-50 rounded-md border border-gray-100 transition-colors hover:bg-tzuchi-50">
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="radio" name="huai" value="互愛1" required class="form-radio h-5 w-5 text-tzuchi-700 focus:ring-tzuchi-500 border-gray-300">
                             <span class="ml-3 text-gray-700">互愛1</span>
@@ -130,7 +180,7 @@
                         3. 所屬協力 <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
-                        <select id="xieli" name="xieli" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-gray-50 cursor-pointer">
+                        <select id="xieli" name="xieli" required class="form-select block w-full pl-3 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm rounded-md border shadow-sm bg-gray-50 cursor-pointer hover:bg-white">
                             <option value="" disabled selected>請選擇所屬協力...</option>
                             <option value="協力1">協力1</option>
                             <option value="協力2">協力2</option>
@@ -147,7 +197,7 @@
                         4. 報名姓名 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">請填寫真實姓名</p>
-                    <input type="text" id="name" name="name" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
+                    <input type="text" id="name" name="name" required placeholder="例如：林大愛" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 5. 聯絡電話 -->
@@ -156,7 +206,7 @@
                         5. 聯絡電話 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">方便活動當日或遇雨取消時聯繫</p>
-                    <input type="tel" id="phone" name="phone" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
+                    <input type="tel" id="phone" name="phone" required placeholder="例如：0912345678" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 6. 參加總人數 -->
@@ -165,12 +215,12 @@
                         6. 參加總人數 <span class="text-red-500">*</span>
                     </label>
                     <p class="text-sm text-gray-500 mb-2">含本人及隨行親友 (請填寫數字)</p>
-                    <input type="number" id="people_count" name="people_count" min="1" required placeholder="例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors">
+                    <input type="number" id="people_count" name="people_count" min="1" required placeholder="例如：2" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-tzuchi-500 focus:border-tzuchi-500 sm:text-sm bg-gray-50 transition-colors hover:bg-white">
                 </div>
 
                 <!-- 提交按鈕 -->
-                <div class="pt-6">
-                    <button type="submit" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-tzuchi-700 hover:bg-tzuchi-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200">
+                <div class="pt-6 relative z-20">
+                    <button type="submit" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-tzuchi-700 hover:bg-tzuchi-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200 cursor-pointer">
                         送出報名資料
                     </button>
                 </div>
@@ -192,13 +242,13 @@
             <p class="text-lg text-gray-600 mb-8">
                 感恩您的發心參與。<br>期待與您一同回到靜思法源，聆聽慈濟一甲子的真實故事。
             </p>
-            <div class="bg-gray-50 p-5 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200 w-full max-w-sm">
+            <div class="bg-gray-50 p-5 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200 w-full max-w-sm relative z-20">
                 <p class="mb-2"><strong class="text-gray-800">報名人：</strong> <span id="display-name" class="text-lg text-tzuchi-700 font-medium"></span></p>
                 <p class="mb-2"><strong class="text-gray-800">參加人數：</strong> <span id="display-count" class="text-lg text-tzuchi-700 font-medium"></span> 位</p>
                 <p><strong class="text-gray-800">所屬區隊：</strong> <span id="display-group"></span></p>
             </div>
-            <div>
-                <button onclick="location.reload()" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-tzuchi-700 bg-tzuchi-100 hover:bg-tzuchi-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors">
+            <div class="relative z-20">
+                <button onclick="location.reload()" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-tzuchi-700 bg-tzuchi-100 hover:bg-tzuchi-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tzuchi-500 transition-colors cursor-pointer">
                     返回重新填寫
                 </button>
             </div>
@@ -207,13 +257,51 @@
     </div>
 
     <!-- 頁尾 -->
-    <footer class="max-w-3xl mx-auto mt-8 text-center pb-8 text-sm text-gray-500">
+    <footer class="max-w-3xl mx-auto mt-8 text-center pb-8 text-sm text-gray-500 relative z-10">
         &copy; 2026 慈濟六十周年特展籌備團隊
     </footer>
 
-    <!-- 表單互動邏輯 -->
+    <!-- 動畫與表單互動邏輯 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- 紅豆特效產生器 ---
+            function createBeans() {
+                const container = document.getElementById('bean-container');
+                const beanCount = 25; // 畫面上同時出現的紅豆數量 (可調整)
+
+                for (let i = 0; i < beanCount; i++) {
+                    const bean = document.createElement('div');
+                    bean.classList.add('red-bean');
+
+                    // 隨機設定初始屬性
+                    const leftPos = Math.random() * 100; // 水平起始位置 0-100vw
+                    const animDuration = Math.random() * 15 + 15; // 下落時間 15-30秒 (緩慢優雅)
+                    const animDelay = Math.random() * 20; // 延遲出現 0-20秒
+                    const scale = Math.random() * 0.5 + 0.6; // 大小縮放 0.6-1.1倍
+                    const startRot = Math.random() * 360; // 初始旋轉角度
+                    const endRot = startRot + (Math.random() * 360 + 360); // 結束旋轉角度 (轉1~2圈)
+                    const drift = (Math.random() * 100 - 50); // 橫向飄移 -50px 到 50px
+                    const maxOpacity = Math.random() * 0.4 + 0.4; // 透明度 0.4 - 0.8 (避免太刺眼)
+
+                    bean.style.left = `${leftPos}vw`;
+                    bean.style.animationDuration = `${animDuration}s`;
+                    bean.style.animationDelay = `-${animDelay}s`; // 設為負數讓一載入就有分散的紅豆
+                    
+                    // 傳遞 CSS 變數供 @keyframes 使用
+                    bean.style.setProperty('--scale', scale);
+                    bean.style.setProperty('--start-rot', `${startRot}deg`);
+                    bean.style.setProperty('--end-rot', `${endRot}deg`);
+                    bean.style.setProperty('--drift', `${drift}px`);
+                    bean.style.setProperty('--max-opacity', maxOpacity);
+
+                    container.appendChild(bean);
+                }
+            }
+            // 啟動紅豆特效
+            createBeans();
+
+            // --- 表單邏輯 ---
             const form = document.getElementById('registration-form');
             const formContainer = document.getElementById('form-container');
             const successMessage = document.getElementById('success-message');
@@ -230,7 +318,6 @@
                 const huai = formData.get('huai');
                 const xieli = formData.get('xieli');
 
-                // 簡單的前端驗證確保都有填寫
                 if(name && count && heqi && huai && xieli) {
                     
                     // 將資料填入成功畫面中
