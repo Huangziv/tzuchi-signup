@@ -249,7 +249,7 @@
             <div class="bg-gray-50 p-5 rounded-lg inline-block text-left text-sm text-gray-600 mb-8 border border-gray-200 w-full max-w-sm relative z-20">
                 <p class="mb-2"><strong class="text-gray-800">報名人：</strong> <span id="display-name" class="text-lg text-tzuchi-700 font-medium"></span></p>
                 <p class="mb-2"><strong class="text-gray-800">參加人數：</strong> <span id="display-count" class="text-lg text-tzuchi-700 font-medium"></span> 位</p>
-                <p class="mb-2"><strong class="text-gray-800">所屬區隊：</strong> <span id="display-group"></span></p>
+                <!-- 移除了所屬區隊的顯示區塊 -->
                 <div class="mt-4 pt-4 border-t border-gray-200">
                     <p class="text-center"><strong class="text-gray-800">目前已報名總人數</strong></p>
                     <p class="text-center mt-1"><span id="display-total-count" class="text-3xl text-tzuchi-700 font-bold"></span> <span class="text-gray-600">位</span></p>
@@ -325,15 +325,11 @@
             const formData = new FormData(form);
             const name = formData.get('entry.2781799');
             const count = formData.get('entry.366303649');
-            const heqi = formData.get('entry.2066300681');
-            const huai = formData.get('entry.1646258153');
-            const xieli = formData.get('entry.983147328');
 
             if(name) {
                 // 將資料填入成功畫面中
                 document.getElementById('display-name').textContent = name;
                 document.getElementById('display-count').textContent = count;
-                document.getElementById('display-group').textContent = `${heqi} / ${huai} / ${xieli}`;
                 
                 // 準備顯示總人數的 UI
                 const totalDisplay = document.getElementById('display-total-count');
